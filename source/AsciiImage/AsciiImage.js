@@ -1,5 +1,6 @@
 /** @flow */
 import React, { Component, PropTypes } from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 
 const CHARACTERS = ['@', '#', '$', '%', '^', '&', '*']
 
@@ -9,9 +10,7 @@ export default class AsciiImage extends Component {
     animationInterval: PropTypes.number.isRequired,
     blockSize: PropTypes.number.isRequired,
     fontSize: PropTypes.number.isRequired,
-    height: PropTypes.number,
-    url: PropTypes.string.isRequired,
-    width: PropTypes.number
+    url: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -77,17 +76,12 @@ export default class AsciiImage extends Component {
   }
 
   render () {
-    const { fontSize, height, width } = this.props
+    const { fontSize } = this.props
     const { colorData } = this.state
 
     if (!colorData) {
       return (
-        <div
-          style={{
-            height,
-            width
-          }}
-        >
+        <div {...this.props}>
           Loading...
         </div>
       )
@@ -126,6 +120,10 @@ export default class AsciiImage extends Component {
     )
   }
 
+  shouldComponentUpdate (nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState)
+  }
+
   _loadImage (props = this.props) {
     const { url } = props
 
@@ -140,7 +138,7 @@ export default class AsciiImage extends Component {
     const height = this._canvas.height
     const width = this._canvas.width
 
-    // 2d Array~ rows containing columns
+    // 2d Array~ rows containing rows and columns
     const colorData = []
 
     // It's faster to fetch all pixel color data at once and iterate over the Array.
@@ -203,7 +201,7 @@ export default class AsciiImage extends Component {
     const { animationInterval } = this.props
 
     this._animationIntervalId = setInterval(() => {
-      this.setState({})
+      this.forceUpdate()
     }, animationInterval)
   }
 
@@ -212,16 +210,9 @@ export default class AsciiImage extends Component {
   }
 
   _onImageLoad (event) {
-    const {
-      height = this._image.height,
-      width = this._image.width
-    } = this.props
-
-    // @TODO Separate chunking and image loading
-
     this._canvas = document.createElement('canvas')
-    this._canvas.width = width
-    this._canvas.height = height
+    this._canvas.width = this._image.width
+    this._canvas.height = this._image.height
 
     this._context = this._canvas.getContext('2d')
     this._context.drawImage(this._image, 0, 0, this._canvas.width, this._canvas.height)
