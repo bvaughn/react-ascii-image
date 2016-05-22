@@ -1,7 +1,7 @@
 import debounce from 'lodash.debounce'
 import React, { Component } from 'react'
 import AsciiImage from './AsciiImage'
-import styles from './AsciiImage.css'
+import styles from './AsciiImage.example.css'
 
 export default class AsciiImageExample extends Component {
   constructor (props) {
@@ -44,24 +44,24 @@ export default class AsciiImageExample extends Component {
           <label>
             Block size:
             <input
+              defaultValue={blockSize}
               onChange={this._onBlockSizeChange}
               step={1}
               type='number'
-              value={blockSize}
             />
           </label>
           <label>
             Font size:
             <input
+              defaultValue={fontSize}
               onChange={this._onFontSizeChange}
               step={1}
               type='number'
-              value={fontSize}
             />
           </label>
           <label>
             <input
-              checked={animated}
+              defaultChecked={animated}
               onChange={this._onAnimatedChange}
               type='checkbox'
             />
