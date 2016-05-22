@@ -1,0 +1,14 @@
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Roboto', 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: #272727;
+  background-color: #fff;
+}
+a {
+  color: #409890;
+}
+* {
+  box-sizing: border-box;
+}
