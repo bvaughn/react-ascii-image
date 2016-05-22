@@ -17,8 +17,8 @@ export default class AsciiImage extends Component {
   static defaultProps = {
     animated: false,
     animationInterval: 350,
-    blockSize: 3,
-    fontSize: 6
+    blockSize: 5,
+    fontSize: 10
   };
 
   constructor (props, context) {
@@ -88,45 +88,33 @@ export default class AsciiImage extends Component {
       )
     }
 
-    // @TODO Try using <svg> here instead of nested <div>s?
-    const rows = colorData.map((row, rowIndex) => {
-      const columns = row.map((column, columnIndex) => {
+    const texts = colorData.map((row, rowIndex) => {
+      return row.map((column, columnIndex) => {
         const character = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)]
 
         return (
-          <div
+          <text
             key={`${columnIndex},${rowIndex}`}
             style={{
-              color: `rgba(${column.red}, ${column.green}, ${column.blue}, ${column.alpha})`,
-              display: 'inline-block',
-              fontSize: fontSize,
-              height: fontSize,
-              lineHeight: `${fontSize}px`,
-              textAlign: 'center',
-              width: fontSize
+              fill: `rgba(${column.red}, ${column.green}, ${column.blue}, ${column.alpha})`,
+              fontSize
             }}
+            x={columnIndex * fontSize}
+            y={rowIndex * fontSize}
           >
             {character}
-          </div>
+          </text>
         )
       })
-
-      return (
-        <div
-          key={`${rowIndex}`}
-          style={{
-            height: fontSize
-          }}
-        >
-          {columns}
-        </div>
-      )
     })
 
     return (
-      <div>
-        {rows}
-      </div>
+      <svg
+        height={this._canvas.height}
+        width={this._canvas.width}
+      >
+        {texts}
+      </svg>
     )
   }
 
@@ -147,6 +135,9 @@ export default class AsciiImage extends Component {
     // 2d Array~ rows containing columns
     const colorData = []
 
+    // It's faster to fetch all pixel color data at once and iterate over the Array.
+    const imageData = this._context.getImageData(0, 0, width, height).data
+
     for (let row = 0; row < height; row += fontSize) {
       let columns = []
 
@@ -159,8 +150,13 @@ export default class AsciiImage extends Component {
 
         for (let y = row; y < height && y < row + fontSize; y += blockSize) {
           for (let x = column; x < width && x < column + fontSize; x += blockSize) {
-            let pixelData = this._context.getImageData(x, y, 1, 1).data
-            let [red, green, blue, alpha] = pixelData
+            // let pixelData = this._context.getImageData(x, y, 1, 1).data
+            // let [red, green, blue, alpha] = pixelData
+            let index = (y * width + x) * 4
+            let red = imageData[index]
+            let green = imageData[index + 1]
+            let blue = imageData[index + 2]
+            let alpha = imageData[index + 3]
 
             numSamples++
             alphaTotals += alpha

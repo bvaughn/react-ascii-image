@@ -7,9 +7,9 @@ export default class AsciiImageExample extends Component {
     super(props)
 
     this.state = {
-      animated: true,
-      blockSize: 3,
-      fontSize: 6
+      animated: false,
+      blockSize: 5,
+      fontSize: 10
     }
 
     this._updateState = debounce(this._updateState.bind(this), 500)
@@ -75,13 +75,13 @@ export default class AsciiImageExample extends Component {
 
   _onBlockSizeChange (event) {
     this._updateState({
-      blockSize: parseInt(event.target.value, 10)
+      blockSize: ~~(event.target.value)
     })
   }
 
   _onFontSizeChange (event) {
     this._updateState({
-      fontSize: parseInt(event.target.value, 10)
+      fontSize: ~~(event.target.value)
     })
   }
 }
