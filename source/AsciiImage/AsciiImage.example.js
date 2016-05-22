@@ -1,6 +1,7 @@
 import debounce from 'lodash.debounce'
 import React, { Component } from 'react'
 import AsciiImage from './AsciiImage'
+import styles from './AsciiImage.css'
 
 export default class AsciiImageExample extends Component {
   constructor (props) {
@@ -23,42 +24,50 @@ export default class AsciiImageExample extends Component {
     const { animated, blockSize, fontSize } = this.state
 
     return (
-      <div>
+      <div className={styles.AsciiImageExample}>
+        <h3>Original Image</h3>
+        <img
+          className={styles.Image}
+          src={require('../demo/google.png')}
+        />
+
+        <h3>AsciiImage</h3>
         <AsciiImage
           animated={animated}
           blockSize={blockSize}
+          className={styles.AsciiImage}
           fontSize={fontSize}
           url={require('../demo/google.png')}
         />
 
-        <label>
-          <input
-            checked={animated}
-            onChange={this._onAnimatedChange}
-            type='checkbox'
-          />
-          Animated?
-        </label>
-        <br/>
-        <label>
-          Block size:
-          <input
-            onChange={this._onBlockSizeChange}
-            step={1}
-            type='number'
-            value={blockSize}
-          />
-        </label>
-        <br/>
-        <label>
-          Font size:
-          <input
-            onChange={this._onFontSizeChange}
-            step={1}
-            type='number'
-            value={fontSize}
-          />
-        </label>
+        <div className={styles.OptionsRow}>
+          <label>
+            Block size:
+            <input
+              onChange={this._onBlockSizeChange}
+              step={1}
+              type='number'
+              value={blockSize}
+            />
+          </label>
+          <label>
+            Font size:
+            <input
+              onChange={this._onFontSizeChange}
+              step={1}
+              type='number'
+              value={fontSize}
+            />
+          </label>
+          <label>
+            <input
+              checked={animated}
+              onChange={this._onAnimatedChange}
+              type='checkbox'
+            />
+            Animated?
+          </label>
+        </div>
       </div>
     )
   }

@@ -1,0 +1,22 @@
+.AsciiImageExample {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.AsciiImage,
+.Image {
+  background-color: #fff;
+}
+
+.OptionsRow {
+  display: flex;
+  justify-items: center;
+  margin-top: 0.5rem;
+}
+.OptionsRow label {
+  margin-right: 0.5rem;
+}
+.OptionsRow label:last-of-type {
+  margin-right: 0;
+}

@@ -32,14 +32,12 @@ export default class AsciiImage extends Component {
   }
 
   componentDidMount () {
-    const { animated, animationInterval } = this.props
+    const { animated } = this.props
 
     this._loadImage()
 
     if (animated) {
-      this._animationIntervalId = setInterval(() => {
-        this.setState({})
-      }, animationInterval)
+      this._startAnimation()
     }
   }
 
@@ -69,14 +67,12 @@ export default class AsciiImage extends Component {
       !animated &&
       nextProps.animated
     ) {
-      this._animationIntervalId = setInterval(() => {
-        this.setState({})
-      }, animationInterval)
+      this._startAnimation()
     } else if (
       animated &&
       !nextProps.animated
     ) {
-      clearInterval(this._animationIntervalId)
+      this._stopAnimation()
     }
   }
 
@@ -121,6 +117,7 @@ export default class AsciiImage extends Component {
 
     return (
       <svg
+        {...this.props}
         height={this._canvas.height}
         width={this._canvas.width}
       >
@@ -200,6 +197,18 @@ export default class AsciiImage extends Component {
     }
 
     this.setState({ colorData })
+  }
+
+  _startAnimation () {
+    const { animationInterval } = this.props
+
+    this._animationIntervalId = setInterval(() => {
+      this.setState({})
+    }, animationInterval)
+  }
+
+  _stopAnimation () {
+    clearInterval(this._animationIntervalId)
   }
 
   _onImageLoad (event) {
