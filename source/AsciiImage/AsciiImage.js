@@ -44,7 +44,13 @@ export default class AsciiImage extends Component {
   }
 
   componentWillUpdate (nextProps, nextState) {
-    const { animated, animationInterval, blockSize, url } = this.props
+    const {
+      animated,
+      animationInterval,
+      blockSize,
+      fontSize,
+      url
+    } = this.props
 
     if (url !== nextProps.url) {
       this.setState({
@@ -52,7 +58,10 @@ export default class AsciiImage extends Component {
       })
 
       this._loadImage(nextProps)
-    } else if (blockSize !== nextProps.blockSize) {
+    } else if (
+      blockSize !== nextProps.blockSize ||
+      fontSize !== nextProps.fontSize
+    ) {
       this._processImage(nextProps)
     }
 
@@ -88,19 +97,21 @@ export default class AsciiImage extends Component {
       )
     }
 
-    const texts = colorData.map((row, rowIndex) => {
-      return row.map((column, columnIndex) => {
+    const texts = colorData.map((row) => {
+      return row
+        .filter((column) => column.alpha)
+        .map((column) => {
         const character = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)]
 
         return (
           <text
-            key={`${columnIndex},${rowIndex}`}
+            key={`${column.column},${column.row}`}
             style={{
               fill: `rgba(${column.red}, ${column.green}, ${column.blue}, ${column.alpha})`,
               fontSize
             }}
-            x={columnIndex * fontSize}
-            y={rowIndex * fontSize}
+            x={column.column}
+            y={column.row}
           >
             {character}
           </text>
@@ -139,17 +150,21 @@ export default class AsciiImage extends Component {
     const imageData = this._context.getImageData(0, 0, width, height).data
 
     for (let row = 0; row < height; row += fontSize) {
+      let yStop = Math.min(height, row + fontSize)
+
       let columns = []
 
       for (let column = 0; column < width; column += fontSize) {
+        let xStop = Math.min(width, column + fontSize)
+
         let alphaTotals = 0
         let redTotals = 0
         let greenTotals = 0
         let blueTotals = 0
         let numSamples = 0
 
-        for (let y = row; y < height && y < row + fontSize; y += blockSize) {
-          for (let x = column; x < width && x < column + fontSize; x += blockSize) {
+        for (let y = row; y < yStop; y += blockSize) {
+          for (let x = column; x < xStop; x += blockSize) {
             // let pixelData = this._context.getImageData(x, y, 1, 1).data
             // let [red, green, blue, alpha] = pixelData
             let index = (y * width + x) * 4
@@ -174,8 +189,10 @@ export default class AsciiImage extends Component {
         columns.push({
           alpha,
           blue,
+          column,
           green,
-          red
+          red,
+          row
         })
       }
 
