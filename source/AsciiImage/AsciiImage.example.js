@@ -9,8 +9,8 @@ export default class AsciiImageExample extends Component {
 
     this.state = {
       animated: false,
-      blockSize: 5,
-      fontSize: 10
+      blockSize: 4,
+      fontSize: 8
     }
 
     this._updateState = debounce(this._updateState.bind(this), 500)
