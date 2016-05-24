@@ -6,7 +6,8 @@
 
 .AsciiImage,
 .Image {
-  background-color: #fff;
+  background-color: #000;
+  overflow: hidden;
 }
 
 .OptionsRow {

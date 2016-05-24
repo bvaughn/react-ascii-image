@@ -45,6 +45,14 @@ module.exports = {
         query: {
           mimetype: 'image/png'
         }
+      },
+      {
+        test: /\.jpg$/,
+        loader: 'url-loader',
+        include: path.join(__dirname, 'source', 'demo'),
+        query: {
+          mimetype: 'image/jpg'
+        }
       }
     ]
   },

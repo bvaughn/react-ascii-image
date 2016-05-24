@@ -2,22 +2,26 @@
 import React, { Component, PropTypes } from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
 
-const CHARACTERS = ['@', '#', '$', '%', '^', '&', '*']
+const DEFAULT_CHARS = ['૱', 'Ǖ', '¤', '℥', 'Ω', '⚭', '⚮', 'ᵯ', 'ᵿ', '§', '₯']
 
 export default class AsciiImage extends Component {
   static propTypes = {
     animated: PropTypes.bool.isRequired,
     animationInterval: PropTypes.number.isRequired,
     blockSize: PropTypes.number.isRequired,
+    characters: PropTypes.arrayOf(PropTypes.string).isRequired,
     fontSize: PropTypes.number.isRequired,
+    renderMode: PropTypes.oneOf(['inline-block', 'svg']).isRequired,
     url: PropTypes.string.isRequired
   };
 
   static defaultProps = {
     animated: false,
-    animationInterval: 350,
-    blockSize: 5,
-    fontSize: 10
+    animationInterval: 500,
+    blockSize: 4,
+    characters: DEFAULT_CHARS,
+    renderMode: 'inline-block',
+    fontSize: 8
   };
 
   constructor (props, context) {
@@ -26,6 +30,8 @@ export default class AsciiImage extends Component {
     this.state = {
       colorData: null
     }
+
+    this._setRenderStrategy(props)
 
     this._onImageLoad = this._onImageLoad.bind(this)
   }
@@ -43,11 +49,15 @@ export default class AsciiImage extends Component {
   componentWillUpdate (nextProps, nextState) {
     const {
       animated,
-      animationInterval,
       blockSize,
       fontSize,
+      renderMode,
       url
     } = this.props
+
+    if (renderMode !== nextProps.renderMode) {
+      this._setRenderStrategy(nextProps)
+    }
 
     if (url !== nextProps.url) {
       this.setState({
@@ -76,7 +86,6 @@ export default class AsciiImage extends Component {
   }
 
   render () {
-    const { fontSize } = this.props
     const { colorData } = this.state
 
     if (!colorData) {
@@ -87,41 +96,22 @@ export default class AsciiImage extends Component {
       )
     }
 
-    const texts = colorData.map((row) => {
-      return row
-        .filter((column) => column.alpha)
-        .map((column) => {
-        const character = CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)]
-
-        return (
-          <text
-            key={`${column.column},${column.row}`}
-            style={{
-              fill: `rgba(${column.red}, ${column.green}, ${column.blue}, ${column.alpha})`,
-              fontSize
-            }}
-            x={column.column}
-            y={column.row}
-          >
-            {character}
-          </text>
-        )
-      })
-    })
-
-    return (
-      <svg
-        {...this.props}
-        height={this._canvas.height}
-        width={this._canvas.width}
-      >
-        {texts}
-      </svg>
-    )
+    return this._renderStrategy()
   }
 
   shouldComponentUpdate (nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState)
+  }
+
+  _getChars (count = 1) {
+    const { characters } = this.props
+    const charactersLength = characters.length
+
+    let chars = ''
+    while (count-- >= 0) {
+      chars += characters[~~(Math.random() * charactersLength)]
+    }
+    return chars
   }
 
   _loadImage (props = this.props) {
@@ -195,6 +185,105 @@ export default class AsciiImage extends Component {
     }
 
     this.setState({ colorData })
+  }
+
+  _renderCanvas () {
+    const { fontSize } = this.props
+    const { colorData } = this.state
+
+    this._context.clearRect(0, 0, this._canvas.width, this._canvas.height)
+    this._context.font = `${fontSize}px sans-serif`
+
+    colorData.forEach((row) => row
+      .forEach((column) => {
+        if (column.alpha > 0) {
+          const text = this._getChars()
+
+          this._context.fillStyle = `rgba(${column.red}, ${column.green}, ${column.blue}, ${column.alpha})`
+          this._context.fillText(text, column.column, column.row)
+        }
+      })
+    )
+  }
+
+  _renderInlineBlocks () {
+    const { fontSize } = this.props
+    const { colorData } = this.state
+
+    const blocks = colorData.map((row) => row
+      .filter((column) => column.alpha)
+      .map((column) =>
+        <div
+          key={`${column.column},${column.row}`}
+          style={{
+            display: 'inline-block',
+            color: `rgba(${column.red}, ${column.green}, ${column.blue}, ${column.alpha})`,
+            left: column.column,
+            fontSize,
+            position: 'absolute',
+            top: column.row
+          }}
+        >
+          {this._getChars(2)}
+        </div>
+      )
+    )
+
+    return (
+      <div
+        {...this.props}
+        style={{
+          height: this._canvas.height,
+          position: 'relative',
+          width: this._canvas.width
+        }}
+      >
+        {blocks}
+      </div>
+    )
+  }
+
+  _renderSvg () {
+    const { fontSize } = this.props
+    const { colorData } = this.state
+
+    const texts = colorData.map((row) => row
+      .filter((column) => column.alpha)
+      .map((column) =>
+        <text
+          key={`${column.column},${column.row}`}
+          style={{
+            fill: `rgba(${column.red}, ${column.green}, ${column.blue}, ${column.alpha})`,
+            fontSize
+          }}
+          x={column.column}
+          y={column.row}
+        >
+          {this._getChars(2)}
+        </text>
+      )
+    )
+
+    return (
+      <svg
+        {...this.props}
+        height={this._canvas.height}
+        width={this._canvas.width}
+      >
+        {texts}
+      </svg>
+    )
+  }
+
+  _setRenderStrategy (props) {
+    switch (props.renderMode) {
+      case 'svg':
+        this._renderStrategy = this._renderSvg
+        break
+      default:
+        this._renderStrategy = this._renderInlineBlocks
+        break
+    }
   }
 
   _startAnimation () {

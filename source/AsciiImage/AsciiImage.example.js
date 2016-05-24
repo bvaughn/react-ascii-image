@@ -28,16 +28,17 @@ export default class AsciiImageExample extends Component {
         <h3>Original Image</h3>
         <img
           className={styles.Image}
-          src={require('../demo/google.png')}
+          src={require('../demo/matrix.jpg')}
         />
 
         <h3>AsciiImage</h3>
         <AsciiImage
           animated={animated}
+          animationInterval={100}
           blockSize={blockSize}
           className={styles.AsciiImage}
           fontSize={fontSize}
-          url={require('../demo/google.png')}
+          url={require('../demo/matrix.jpg')}
         />
 
         <div className={styles.OptionsRow}>

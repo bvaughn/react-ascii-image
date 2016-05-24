@@ -1,5 +1,4 @@
 import AsciiImageExample from '../AsciiImage/AsciiImage.example'
-import Immutable from 'immutable'
 import React, { Component } from 'react'
 import styles from './Application.css'
 import { render } from 'react-dom'
