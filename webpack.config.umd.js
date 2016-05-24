@@ -5,7 +5,7 @@ const webpack = require('webpack')
 module.exports = {
   devtool: 'source-map',
   entry: {
-    'react-virtualized': './source/index.js'
+    'react-ascii-image': './source/index.js'
   },
   output: {
     path: 'dist/umd',

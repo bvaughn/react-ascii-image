@@ -4,19 +4,21 @@
   align-items: center;
 }
 
-.AsciiImage,
-.Image {
+.GoogleImage,
+.MatrixImage {
+  margin-left: 0.5rem;
+}
+.MatrixImage {
   background-color: #000;
   overflow: hidden;
 }
 
 .OptionsRow {
   display: flex;
-  justify-items: center;
+  justify-content: center;
   margin-top: 0.5rem;
 }
 .OptionsRow label {
-  margin-right: 0.5rem;
 }
 .OptionsRow label:last-of-type {
   margin-right: 0;
@@ -24,4 +26,14 @@
 
 .input {
   width: 3rem;
+}
+
+.Datum {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+.ImageRow {
+  display: flex;
 }

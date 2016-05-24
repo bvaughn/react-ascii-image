@@ -1,10 +1,10 @@
 {
-  "name": "react-virtualized",
-  "description": "React components for efficiently rendering large, scrollable lists and tabular data",
+  "name": "react-ascii-image",
+  "description": "React component that displays image data as colored text.",
   "author": "Brian Vaughn <brian.david.vaughn@gmail.com>",
   "user": "bvaughn",
   "version": "7.0.5",
-  "homepage": "https://github.com/bvaughn/react-virtualized",
+  "homepage": "https://github.com/bvaughn/react-ascii-image",
   "main": "dist/commonjs/index.js",
   "jsnext:main": "dist/es/index.js",
   "license": "MIT",
@@ -34,7 +34,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bvaughn/react-virtualized.git"
+    "url": "https://github.com/bvaughn/react-ascii-image.git"
   },
   "keywords": [
     "react",
@@ -54,7 +54,7 @@
     "spreadsheet"
   ],
   "bugs": {
-    "url": "https://github.com/bvaughn/react-virtualized/issues"
+    "url": "https://github.com/bvaughn/react-ascii-image/issues"
   },
   "standard": {
     "parser": "babel-eslint",

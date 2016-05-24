@@ -3,6 +3,19 @@ import React, { Component } from 'react'
 import AsciiImage from './AsciiImage'
 import styles from './AsciiImage.example.css'
 
+const data = [
+  {
+    className: styles.MatrixImage,
+    image: require('../demo/matrix.jpg'),
+    title: 'JPG'
+  },
+  {
+    className: styles.GoogleImage,
+    image: require('../demo/google.png'),
+    title: 'PNG (with transparency)'
+  }
+]
+
 export default class AsciiImageExample extends Component {
   constructor (props) {
     super(props)
@@ -25,22 +38,6 @@ export default class AsciiImageExample extends Component {
 
     return (
       <div className={styles.AsciiImageExample}>
-        <h3>Original Image</h3>
-        <img
-          className={styles.Image}
-          src={require('../demo/matrix.jpg')}
-        />
-
-        <h3>AsciiImage</h3>
-        <AsciiImage
-          animated={animated}
-          animationInterval={100}
-          blockSize={blockSize}
-          className={styles.AsciiImage}
-          fontSize={fontSize}
-          url={require('../demo/matrix.jpg')}
-        />
-
         <div className={styles.OptionsRow}>
           <label>
             Block size:
@@ -69,6 +66,26 @@ export default class AsciiImageExample extends Component {
             Animated?
           </label>
         </div>
+
+        {data.map((datum) => (
+          <div
+            className={styles.Datum}
+            key={datum.title}
+          >
+            <h3>{datum.title}</h3>
+            <div className={styles.ImageRow}>
+              <img src={datum.image} />
+              <AsciiImage
+                animated={animated}
+                animationInterval={100}
+                blockSize={blockSize}
+                className={datum.className}
+                fontSize={fontSize}
+                url={datum.image}
+              />
+            </div>
+          </div>
+        ))}
       </div>
     )
   }
