@@ -2,7 +2,9 @@
 import React, { Component, PropTypes } from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
 
-const DEFAULT_CHARS = ['૱', 'Ǖ', '¤', '℥', 'Ω', '⚭', '⚮', 'ᵯ', 'ᵿ', '§', '₯']
+export const DEFAULT_CHARACATERS = ['૱', 'Ǖ', '¤', '℥', 'Ω', '⚭', '⚮', 'ᵯ', 'ᵿ', '§', '₯']
+
+// @TODO Finish adding support for :renderMode "canvas"
 
 export default class AsciiImage extends Component {
   static propTypes = {
@@ -19,7 +21,7 @@ export default class AsciiImage extends Component {
     animated: false,
     animationInterval: 500,
     blockSize: 4,
-    characters: DEFAULT_CHARS,
+    characters: DEFAULT_CHARACATERS,
     renderMode: 'inline-block',
     fontSize: 8
   };
@@ -257,7 +259,7 @@ export default class AsciiImage extends Component {
             fontSize
           }}
           x={column.column}
-          y={column.row}
+          y={column.row + fontSize}
         >
           {this._getChars(2)}
         </text>

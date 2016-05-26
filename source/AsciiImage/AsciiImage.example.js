@@ -1,6 +1,6 @@
 import debounce from 'lodash.debounce'
 import React, { Component } from 'react'
-import AsciiImage from './AsciiImage'
+import AsciiImage, { DEFAULT_CHARACATERS } from './AsciiImage'
 import styles from './AsciiImage.example.css'
 
 const data = [
@@ -23,25 +23,30 @@ export default class AsciiImageExample extends Component {
     this.state = {
       animated: false,
       blockSize: 4,
-      fontSize: 8
+      characters: DEFAULT_CHARACATERS,
+      fontSize: 8,
+      renderMode: 'inline-block'
     }
 
     this._updateState = debounce(this._updateState.bind(this), 500)
 
     this._onAnimatedChange = this._onAnimatedChange.bind(this)
     this._onBlockSizeChange = this._onBlockSizeChange.bind(this)
+    this._onCharactersChange = this._onCharactersChange.bind(this)
     this._onFontSizeChange = this._onFontSizeChange.bind(this)
+    this._onRenderModeChange = this._onRenderModeChange.bind(this)
   }
 
   render () {
-    const { animated, blockSize, fontSize } = this.state
+    const { animated, blockSize, characters, fontSize, renderMode } = this.state
 
     return (
       <div className={styles.AsciiImageExample}>
         <div className={styles.OptionsRow}>
           <label>
-            Block size:
+            blockSize:{' '}
             <input
+              className={styles.SmallInput}
               defaultValue={blockSize}
               onChange={this._onBlockSizeChange}
               step={1}
@@ -49,13 +54,32 @@ export default class AsciiImageExample extends Component {
             />
           </label>
           <label>
-            Font size:
+            fontSize:{' '}
             <input
+              className={styles.SmallInput}
               defaultValue={fontSize}
               onChange={this._onFontSizeChange}
               step={1}
               type='number'
             />
+          </label>
+          <label>
+            characters:{' '}
+            <input
+              className={styles.MediumInput}
+              defaultValue={characters.join('')}
+              onChange={this._onCharactersChange}
+            />
+          </label>
+          <label>
+            renderMode:{' '}
+            <select
+              defaultValue={renderMode}
+              onChange={this._onRenderModeChange}
+            >
+              <option value={'inline-block'}>inline-block</option>
+              <option value={'svg'}>svg</option>
+            </select>
           </label>
           <label>
             <input
@@ -79,8 +103,10 @@ export default class AsciiImageExample extends Component {
                 animated={animated}
                 animationInterval={100}
                 blockSize={blockSize}
+                characters={characters}
                 className={datum.className}
                 fontSize={fontSize}
+                renderMode={renderMode}
                 url={datum.image}
               />
             </div>
@@ -106,9 +132,24 @@ export default class AsciiImageExample extends Component {
     })
   }
 
+  _onCharactersChange (event) {
+    const characters = [...event.target.value]
+      .filter((character) => character)
+
+    this._updateState({
+      characters
+    })
+  }
+
   _onFontSizeChange (event) {
     this._updateState({
       fontSize: ~~(event.target.value)
+    })
+  }
+
+  _onRenderModeChange (event) {
+    this._updateState({
+      renderMode: event.target.value
     })
   }
 }

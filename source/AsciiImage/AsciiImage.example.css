@@ -19,9 +19,16 @@
   margin-top: 0.5rem;
 }
 .OptionsRow label {
+  margin-right: 0.5rem;
 }
 .OptionsRow label:last-of-type {
   margin-right: 0;
+}
+.SmallInput {
+  width: 2rem;
+}
+.MediumInput {
+  width: 8rem;
 }
 
 .input {
