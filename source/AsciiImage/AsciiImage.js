@@ -10,9 +10,9 @@ export default class AsciiImage extends Component {
   static propTypes = {
     animated: PropTypes.bool.isRequired,
     animationInterval: PropTypes.number.isRequired,
-    blockSize: PropTypes.number.isRequired,
+    blockSize: greateThanZero,
     characters: PropTypes.arrayOf(PropTypes.string).isRequired,
-    fontSize: PropTypes.number.isRequired,
+    fontSize: greateThanZero,
     renderMode: PropTypes.oneOf(['inline-block', 'svg']).isRequired,
     url: PropTypes.string.isRequired
   };
@@ -310,5 +310,14 @@ export default class AsciiImage extends Component {
     this._context.drawImage(this._image, 0, 0, this._canvas.width, this._canvas.height)
 
     this._processImage()
+  }
+}
+
+function greateThanZero (props, propName, component) {
+  const prop = props[propName]
+  const numericProp = props[propName]
+
+  if (!prop || prop !== numericProp) {
+    throw Error(`${propName} must be an integer greater than 0`)
   }
 }

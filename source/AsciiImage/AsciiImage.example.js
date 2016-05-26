@@ -48,6 +48,7 @@ export default class AsciiImageExample extends Component {
             <input
               className={styles.SmallInput}
               defaultValue={blockSize}
+              min={4}
               onChange={this._onBlockSizeChange}
               step={1}
               type='number'
@@ -58,6 +59,7 @@ export default class AsciiImageExample extends Component {
             <input
               className={styles.SmallInput}
               defaultValue={fontSize}
+              min={4}
               onChange={this._onFontSizeChange}
               step={1}
               type='number'
@@ -130,8 +132,10 @@ export default class AsciiImageExample extends Component {
   }
 
   _onBlockSizeChange (event) {
+    const blockSize = Math.max(4, ~~(event.target.value))
+
     this._updateState({
-      blockSize: ~~(event.target.value)
+      blockSize: blockSize
     })
   }
 
@@ -145,8 +149,10 @@ export default class AsciiImageExample extends Component {
   }
 
   _onFontSizeChange (event) {
+    const fontSize = Math.max(4, ~~(event.target.value))
+
     this._updateState({
-      fontSize: ~~(event.target.value)
+      fontSize
     })
   }
 
