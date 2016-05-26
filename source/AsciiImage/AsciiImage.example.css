@@ -7,10 +7,18 @@
 .GoogleImage,
 .MatrixImage {
   margin-left: 0.5rem;
+  text-align: center;
 }
 .MatrixImage {
   background-color: #000;
   overflow: hidden;
+  color: white;
+  width: 290px;
+  height: 401px;
+}
+.GoogleImage {
+  width: 568px;
+  height: 192px;
 }
 
 .OptionsRow {

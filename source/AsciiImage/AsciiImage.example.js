@@ -98,7 +98,10 @@ export default class AsciiImageExample extends Component {
           >
             <h3>{datum.title}</h3>
             <div className={styles.ImageRow}>
-              <img src={datum.image} />
+              <img
+                className={datum.className}
+                src={datum.image}
+              />
               <AsciiImage
                 animated={animated}
                 animationInterval={100}
