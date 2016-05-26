@@ -6,12 +6,12 @@ import styles from './AsciiImage.example.css'
 const data = [
   {
     className: styles.MatrixImage,
-    image: require('../demo/matrix.jpg'),
+    image: 'http://crossorigin.me/https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg',
     title: 'JPG'
   },
   {
     className: styles.GoogleImage,
-    image: require('../demo/google.png'),
+    image: 'http://crossorigin.me/http://www.gstatic.com/images/branding/googlelogo/2x/googlelogo_color_284x96dp.png',
     title: 'PNG (with transparency)'
   }
 ]

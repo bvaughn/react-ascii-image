@@ -121,6 +121,7 @@ export default class AsciiImage extends Component {
 
     this._image = new Image()
     this._image.addEventListener('load', this._onImageLoad, false)
+    this._image.crossOrigin = 'Anonymous'
     this._image.src = url
   }
 
