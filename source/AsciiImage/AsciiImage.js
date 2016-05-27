@@ -11,6 +11,7 @@ export default class AsciiImage extends Component {
     animated: PropTypes.bool.isRequired,
     animationInterval: PropTypes.number.isRequired,
     blockSize: greateThanZero,
+    characterDensity: greateThanZero,
     characters: PropTypes.arrayOf(PropTypes.string).isRequired,
     fontSize: greateThanZero,
     renderMode: PropTypes.oneOf(['inline-block', 'svg']).isRequired,
@@ -21,6 +22,7 @@ export default class AsciiImage extends Component {
     animated: false,
     animationInterval: 500,
     blockSize: 4,
+    characterDensity: 1,
     characters: DEFAULT_CHARACATERS,
     renderMode: 'inline-block',
     fontSize: 8
@@ -191,7 +193,7 @@ export default class AsciiImage extends Component {
   }
 
   _renderCanvas () {
-    const { fontSize } = this.props
+    const { characterDensity, fontSize } = this.props
     const { colorData } = this.state
 
     this._context.clearRect(0, 0, this._canvas.width, this._canvas.height)
@@ -200,7 +202,7 @@ export default class AsciiImage extends Component {
     colorData.forEach((row) => row
       .forEach((column) => {
         if (column.alpha > 0) {
-          const text = this._getChars()
+          const text = this._getChars(characterDensity)
 
           this._context.fillStyle = `rgba(${column.red}, ${column.green}, ${column.blue}, ${column.alpha})`
           this._context.fillText(text, column.column, column.row)
@@ -210,7 +212,7 @@ export default class AsciiImage extends Component {
   }
 
   _renderInlineBlocks () {
-    const { fontSize } = this.props
+    const { characterDensity, fontSize } = this.props
     const { colorData } = this.state
 
     const blocks = colorData.map((row) => row
@@ -227,7 +229,7 @@ export default class AsciiImage extends Component {
             top: column.row
           }}
         >
-          {this._getChars(2)}
+          {this._getChars(characterDensity)}
         </div>
       )
     )
@@ -247,7 +249,7 @@ export default class AsciiImage extends Component {
   }
 
   _renderSvg () {
-    const { fontSize } = this.props
+    const { characterDensity, fontSize } = this.props
     const { colorData } = this.state
 
     const texts = colorData.map((row) => row
@@ -262,7 +264,7 @@ export default class AsciiImage extends Component {
           x={column.column}
           y={column.row + fontSize}
         >
-          {this._getChars(2)}
+          {this._getChars(characterDensity)}
         </text>
       )
     )

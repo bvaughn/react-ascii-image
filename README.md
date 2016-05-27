@@ -41,6 +41,7 @@ Documentation
 | animated |  | bool | false | Text should be animated. |
 | animationInterval |  | number | 500ms | Interval (in ms) of animation. |
 | blockSize |  | number | 4 | Interval sizes to use when sample pixel colors. |
+| characterDensity |  | number | 1 | Number of characters rendered per font block. |
 | characters |  | string | ૱, Ǖ, ¤, ℥, Ω, ⚭, ⚮, ᵯ, ᵿ, §, ₯ | Text (characters) to use when rendering the image. |
 | fontSize |  | number | 8 | Font size used for text image. |
 | renderMode |  | (inline-block \| svg) | inline-block | Controls rendering method of text image. |

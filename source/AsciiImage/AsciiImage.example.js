@@ -12,6 +12,7 @@ export default class AsciiImageExample extends Component {
     this.state = {
       animated: false,
       blockSize: 4,
+      characterDensity: 1,
       characters: DEFAULT_CHARACATERS,
       fontSize: 8,
       renderMode: 'inline-block',
@@ -22,6 +23,7 @@ export default class AsciiImageExample extends Component {
 
     this._onAnimatedChange = this._onAnimatedChange.bind(this)
     this._onBlockSizeChange = this._onBlockSizeChange.bind(this)
+    this._onCharacterDensityChange = this._onCharacterDensityChange.bind(this)
     this._onCharactersChange = this._onCharactersChange.bind(this)
     this._onFontSizeChange = this._onFontSizeChange.bind(this)
     this._onRenderModeChange = this._onRenderModeChange.bind(this)
@@ -29,7 +31,7 @@ export default class AsciiImageExample extends Component {
   }
 
   render () {
-    const { animated, blockSize, characters, fontSize, renderMode, url } = this.state
+    const { animated, blockSize, characterDensity, characters, fontSize, renderMode, url } = this.state
 
     return (
       <div className={styles.AsciiImageExample}>
@@ -62,6 +64,18 @@ export default class AsciiImageExample extends Component {
               defaultValue={fontSize}
               min={4}
               onChange={this._onFontSizeChange}
+              step={1}
+              type='number'
+            />
+          </label>
+          <label>
+            characterDensity:{' '}
+            <input
+              className={styles.SmallInput}
+              defaultValue={characterDensity}
+              max={4}
+              min={1}
+              onChange={this._onCharacterDensityChange}
               step={1}
               type='number'
             />
@@ -109,6 +123,7 @@ export default class AsciiImageExample extends Component {
                 animated={animated}
                 animationInterval={100}
                 blockSize={blockSize}
+                characterDensity={characterDensity}
                 characters={characters}
                 className={styles.AsciiImage}
                 fontSize={fontSize}
@@ -137,7 +152,15 @@ export default class AsciiImageExample extends Component {
     const blockSize = Math.max(4, ~~(event.target.value))
 
     this._updateState({
-      blockSize: blockSize
+      blockSize
+    })
+  }
+
+  _onCharacterDensityChange (event) {
+    const characterDensity = Math.max(1, Math.min(4, ~~(event.target.value)))
+
+    this._updateState({
+      characterDensity
     })
   }
 

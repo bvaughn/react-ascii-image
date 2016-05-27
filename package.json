@@ -3,7 +3,7 @@
   "description": "React component that displays image data as colored text.",
   "author": "Brian Vaughn <brian.david.vaughn@gmail.com>",
   "user": "bvaughn",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "homepage": "https://github.com/bvaughn/react-ascii-image",
   "main": "dist/commonjs/index.js",
   "jsnext:main": "dist/es/index.js",
