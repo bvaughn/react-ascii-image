@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
 
-export const DEFAULT_CHARACATERS = ['૱', 'Ǖ', '¤', '℥', 'Ω', '⚭', '⚮', 'ᵯ', 'ᵿ', '§', '₯']
+export const DEFAULT_CHARACTERS = ['૱', 'Ǖ', '¤', '℥', 'Ω', '⚭', '⚮', 'ᵯ', 'ᵿ', '§', '₯']
 
 // @TODO Finish adding support for :renderMode "canvas"
 
@@ -23,7 +23,7 @@ export default class AsciiImage extends Component {
     animationInterval: 500,
     blockSize: 4,
     characterDensity: 1,
-    characters: DEFAULT_CHARACATERS,
+    characters: DEFAULT_CHARACTERS,
     renderMode: 'inline-block',
     fontSize: 8
   };
