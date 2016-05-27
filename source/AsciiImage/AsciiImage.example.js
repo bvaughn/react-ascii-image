@@ -33,6 +33,16 @@ export default class AsciiImageExample extends Component {
 
     return (
       <div className={styles.AsciiImageExample}>
+        <h1 className={styles.header}>
+          react-ascii-image
+
+          <small className={styles.headerSmall}>
+            <a href="https://github.com/bvaughn/react-ascii-image">
+              Documentation and code on Github
+            </a>
+          </small>
+        </h1>
+
         <div className={styles.OptionsRow}>
           <label>
             blockSize:{' '}
@@ -84,7 +94,7 @@ export default class AsciiImageExample extends Component {
           </label>
         </div>
 
-        <div className={styles.Datum}>
+        <div className={styles.Example}>
           <label>
             URL: {' '}
             <input
@@ -95,7 +105,6 @@ export default class AsciiImageExample extends Component {
           </label>
           {url && (
             <div className={styles.ImageRow}>
-              <img src={url} />
               <AsciiImage
                 animated={animated}
                 animationInterval={100}
@@ -106,6 +115,7 @@ export default class AsciiImageExample extends Component {
                 renderMode={renderMode}
                 url={`${CROSS_ORIGIN_BLOCKER}${url}`}
               />
+              <img src={url} />
             </div>
           )}
         </div>
