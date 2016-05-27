@@ -4,21 +4,9 @@
   align-items: center;
 }
 
-.GoogleImage,
-.MatrixImage {
+.AsciiImage {
   margin-left: 0.5rem;
   text-align: center;
-}
-.MatrixImage {
-  background-color: #000;
-  overflow: hidden;
-  color: white;
-  width: 290px;
-  height: 401px;
-}
-.GoogleImage {
-  width: 568px;
-  height: 192px;
 }
 
 .OptionsRow {
@@ -38,6 +26,9 @@
 .MediumInput {
   width: 8rem;
 }
+.UrlInput {
+  width: 35rem;
+}
 
 .input {
   width: 3rem;
@@ -51,4 +42,5 @@
 }
 .ImageRow {
   display: flex;
+  margin-top: 0.5rem;
 }
