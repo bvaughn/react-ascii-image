@@ -39,7 +39,7 @@ export default class AsciiImageExample extends Component {
           react-ascii-image
 
           <small className={styles.headerSmall}>
-            <a href="https://github.com/bvaughn/react-ascii-image">
+            <a href='https://github.com/bvaughn/react-ascii-image'>
               Documentation and code on Github
             </a>
           </small>
